@@ -1,8 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -33,8 +31,6 @@ public class Main {
 		}
 		
 		visited[c]++;
-//		System.out.println("쿠폰번호 "+ c+"번 무조건 먹었다고 처리");
-//		System.out.println(Arrays.toString(visited));
 		count++;
 		
 		for (int i = 0; i < k; i++) {
@@ -42,55 +38,21 @@ public class Main {
 				count++;
 			}
 			visited[sushi[i]]++;
-//
-//			System.out.print("인덱 : [");
-//			for (int j = 0; j <9; j++) {
-//				System.out.print(j+", ");
-//			}
-//			for (int j = 9; j <visited.length; j++) {
-//				System.out.print(j+",");
-//			}
-//			System.out.println("\n방문 : "+Arrays.toString(visited));
-//			System.out.println("카운트 : " + count);
 		}
 		
 		max = count;
-//		System.out.println("맥스 : "+ max);
-		
-//		System.out.println();
-//		System.out.println();
-		
 		
 		for (int i = k; i < N +k-1; i++) {
-//			System.out.println("=============");
 			visited[sushi[(i-k)%N]]--;
-//			System.out.println("i : "+ i);
-//			System.out.printf("방문[스시[(%d-%d)%%%d]]\n", i, k, N);
-//			System.out.printf("방문[스시[%d]]\n", (i-k)%N);
-//			System.out.printf("방문[%d] => %d \n", sushi[(i-k)%N],visited[sushi[(i-k)%N]]);
-//			
 			if(visited[sushi[(i-k)%N]] == 0) {
 				count--;
 			}
-//			System.out.println("이전 초밥 처리 후 카운트 : "+ count);
 			if(visited[sushi[i%N]] == 0) {
 				count++;
 			}
-//			System.out.println("먹은 초밥 처리 후 카운트 : "+ count);
 			visited[sushi[i%N]]++;
 
-//			System.out.print("인덱 : [");
-//			for (int j = 0; j <9; j++) {
-//				System.out.print(j+", ");
-//			}
-//			for (int j = 9; j <visited.length; j++) {
-//				System.out.print(j+",");
-//			}
-			
-//			System.out.println("\n방문 : "+Arrays.toString(visited));
-			
 			max = Math.max(max, count);
-//			System.out.println("맥스 : " +max);
 			if(max == k+1) {
 				System.out.println(max);
 				return;
