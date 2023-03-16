@@ -10,41 +10,38 @@ public class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		T = Integer.parseInt(br.readLine());
 		
-		 for (int t = 1; t <= T; t++) {
+		 Loop1 : for (int t = 1; t <= T; t++) {
 			String str = br.readLine();
-			enc = new char[str.length()];
-			for (int i = 0; i < str.length(); i++) {
+			int len = str.length();
+			enc = new char[len];
+			for (int i = 0; i < len; i++) {
 				enc[i]= str.charAt(i);
 			}
 			str = br.readLine();
+			int size = str.length();
 			passwd =new int[26];
 			count = new int[26];
-			for (int i = 0; i < str.length(); i++) {
+			
+			for (int i = 0; i < size; i++) {
 				passwd[str.charAt(i)-'a']++;
 			}
 			
-			int size = str.length();
-			int len = enc.length;
 			for (int i = 0; i < size; i++) {
-				count[enc[i]-'a']+=1;
+				count[enc[i]-'a']++;;
 			}
 			if(check()) {
 				System.out.println("YES");
 				continue ;
 			}
-			boolean flag = false;
+			
 			for (int i = size; i < len; i++) {
-				count[enc[i-size]-'a']-=1;
-				count[enc[i]-'a']+=1;
+				count[enc[i-size]-'a']--;
+				count[enc[i]-'a']++;
 				
 				if(check()) {
-					flag= true;
-					break;
+					System.out.println("YES");
+					continue Loop1;
 				}
-			}
-			if(flag) {
-				System.out.println("YES");
-				continue;
 			}
 			
 			System.out.println("NO");
