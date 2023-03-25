@@ -40,23 +40,11 @@ public class Main {
 			p = new int[cnt+1];
 			r = new int[cnt+1];
 			
-
-//	        for(String key : friends.keySet()) {
-//	            Info value = friends.get(key);
-//	            System.out.println(key + " : " + value.p+" "+value.r);
-//	        }
 			makeSet();
-//			System.out.println(Arrays.toString(p));
-//			System.out.println(Arrays.toString(r));
 			for (int i = 0; i < F; i++) {
 				int rel[] = relation.get(i);
 				union(rel[0], rel[1]);
-//	        	
-//				System.out.println(Arrays.toString(p));
-//				System.out.println(Arrays.toString(r));
-
 				System.out.println(r[p[find(rel[0])]]);
-
 			}
 
 		}
@@ -77,7 +65,6 @@ public class Main {
 			r[a] += r[b];
 			p[b] = a;
 		}
-
 	}
 
 	static int find(int x) {
