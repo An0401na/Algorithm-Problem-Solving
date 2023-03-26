@@ -29,18 +29,18 @@ public class Main {
 				System.out.println("yes");
 				continue;
 			}
-//			if(op.size()%2 == 1){
-//				System.out.println("no");
-//				continue;
-//			}
-//			if(op.get(0) == ')' ||op.get(0) == ']') {
-//				System.out.println("no");
-//				continue;
-//			}
-//			if(op.get(op.size()-1) == '(' ||op.get(op.size()-1) == '[') {
-//				System.out.println("no");
-//				continue;
-//			}
+			if(op.size()%2 == 1){
+				System.out.println("no");
+				continue;
+			}
+			if(op.get(0) == ')' ||op.get(0) == ']') {
+				System.out.println("no");
+				continue;
+			}
+			if(op.get(op.size()-1) == '(' ||op.get(op.size()-1) == '[') {
+				System.out.println("no");
+				continue;
+			}
 			
 			
 			st = new Stack<>();
