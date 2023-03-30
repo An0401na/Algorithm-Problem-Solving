@@ -6,7 +6,6 @@ public class Main {
 	static int[][] matrix;
 	static int cost;
 	static boolean[] visited;
-	static int[] num;
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine());
@@ -19,7 +18,6 @@ public class Main {
 		}
 		cost = Integer.MAX_VALUE;
 		visited = new boolean[N];
-		num = new int[N];
 		visited[0]=true;
 		dfs(0,0,0);
 		System.out.println(cost);
@@ -30,7 +28,6 @@ public class Main {
 			return;
 		}
 		if(cnt == N-1) {
-//			System.out.println(Arrays.toString(num));
 			if(matrix[now][0]!=0) {
 				tot += matrix[now][0];
 				cost = Math.min(cost, tot);
@@ -41,7 +38,6 @@ public class Main {
 			if(visited[i]) continue;
 			if(matrix[now][i]!=0) {
 				visited[i] = true;
-				num[cnt]= i;
 				dfs(cnt+1, i, tot+matrix[now][i]);
 				visited[i] = false;
 			}
