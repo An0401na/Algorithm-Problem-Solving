@@ -19,7 +19,9 @@ public class Main {
 	// 2를 거치는 1 2 3
 	// 			5 2 3이  갱신된다.
 	// 
-	static final int INF = Integer.MAX_VALUE; //inf + inf 인 경우 오버플로우를 방지하기 위해서 Integer.MAX_Value를 사용하지 않는다.
+	static final int INF = Integer.MAX_VALUE; 
+	//inf + inf 인 경우 오버플로우를 방지하기 위해서 Integer.MAX_Value를 사용하지 않는다.
+	//Max value를 두려면 플로이드 로직에서 거쳐가는 비용이 inf이면 최적의 값을 두게끔 한다.
 	static int N; //도시개수
 	static int M; //버스의 개수
 	static int D[][];
@@ -29,7 +31,6 @@ public class Main {
 		N = Integer.parseInt(br.readLine());
 		M = Integer.parseInt(br.readLine());
 		
-//		int INF = M *100000+100;
 		//초기화
 		D = new int[N+1][N+1];
 		for (int i = 0; i < N+1; i++) {
