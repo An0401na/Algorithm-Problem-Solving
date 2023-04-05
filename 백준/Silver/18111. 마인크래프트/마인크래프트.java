@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -47,45 +46,23 @@ public class Main {
 	static int makeFlat(int h) {
 		int count = B; //사용한 블럭 횟수
 		int t =0;
-		int[][] copy = new int[N][M];
-		for (int i = 0; i < N; i++) {
-			copy[i] = Arrays.copyOf(map[i], M);
-		}
 		
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M; j++) {
-				if(copy[i][j] > h) {
-					int dis = copy[i][j]-h;
+				int dis = map[i][j]-h;
+				if(dis > 0) {
 					count += dis;
 					t += dis*2;
-					copy[i][j] = h;
+				}else if(dis <0) {
+					count -= -dis;
+					t += -dis;
 				}
 			}
 		}
-		
-
-		for (int i = 0; i < N; i++) {
-			for (int j = 0; j < M; j++) {
-				if(copy[i][j] < h) {
-					int dis = h - copy[i][j];
-					count -= dis;
-					if(count < 0) {
-						return -1;
-					}
-					t += dis;
-					copy[i][j]=h;
-				}
-			}
+		if(count < 0) {
+			return -1;
 		}
 		return t;
 		
 	}
-	static void print(int[][] copy) {
-		System.out.println("-------------------------------");
-		for (int i = 0; i < copy.length; i++) {
-			System.out.println(Arrays.toString(copy[i]));
-		}
-		
-	}
-
 }
