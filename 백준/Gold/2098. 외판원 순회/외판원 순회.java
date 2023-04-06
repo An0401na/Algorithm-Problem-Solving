@@ -63,9 +63,9 @@ public class Main {
 			
 			if(dist[city][i] == 0) continue; 
 			//city번 도시에서 i번 도시로 갈건데 그 거리가 0이라면 길 자체가 없다는 말이니까 넘어간다.
-			
-			if(TSP(visited | (1<<i), i) != INF) {
-				int res = TSP(visited | (1<<i), i) + dist[city][i];
+			int tspResult = TSP(visited | (1<<i), i);
+			if( tspResult != INF) {
+				int res = tspResult + dist[city][i];
 				dp[visited][city] = Math.min(res, dp[visited][city]);
 			}
 		}
