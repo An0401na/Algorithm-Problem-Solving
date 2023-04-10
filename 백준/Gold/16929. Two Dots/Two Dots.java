@@ -1,10 +1,5 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
 	static int N;
@@ -22,10 +17,11 @@ public class Main {
 		M = Integer.parseInt(st.nextToken());
 
 		map = new char[N][M];
+		visited = new boolean[N][M];
+		temp = new int[N][M];
 		for (int i = 0; i < N; i++) {
 			map[i] = br.readLine().toCharArray();
 		}
-		boolean result = false;
 		for (int i = 0; i < N; i++) {
 			for (int j = 0; j < M - 1; j++) {
 				if (map[i][j] == map[i][j + 1]) {
@@ -33,14 +29,9 @@ public class Main {
 					temp = new int[N][M];
 					visited[i][j] = true;
 					temp[i][j] = 1;
-//					if (check(i, j, map[i][j])) {
-//						System.out.println("Yes");
-//						return;
-//					}
-					visited[i][j]=true;
-					temp[i][j] = 1;
 					checkDfs(i, j, map[i][j]);
-
+					visited[i][j] = false;
+					temp[i][j] = 0;
 				}
 			}
 		}
@@ -65,39 +56,7 @@ public class Main {
 			}
 		}
 	}
-
-	static boolean check(int r, int c, char charater) {
-//		System.out.println(r+" "+c);
-		
-		Queue<int[]> q = new LinkedList<>();
-		q.add(new int[] { r, c });
-//		q.add(new int[] { r, c+1 });
-		int cnt =2;
-		while (!q.isEmpty()) {
-			int size = q.size();
-			for (int s = 0; s < size; s++) {
-				int[] n = q.poll();
-				System.out.println("n => "+n[0]+" "+n[1]);
-				for (int i = 0; i < 4; i++) {
-					int nr = n[0] + dir[i][0];
-					int nc = n[1] + dir[i][1];
-//					if(isInRange(nr, nc) && temp[nr][nc] !=0 &&temp[nr][nc]==temp[n[0]][n[1]]) {
-//						System.out.println(temp[nr][nc]);
-//						System.out.println(temp[n[0]][n[1]]);
-//						return true;
-//					}
-					if (isInRange(nr, nc)&& !visited[nr][nc] && map[nr][nc] == charater) {						
-						visited[nr][nc] = true;
-						temp[nr][nc]= cnt;
-						q.add(new int[] {nr,nc});
-					}
-				}
-			}
-			cnt++;
-		}
-		return false;
-	}
-
+	
 	static boolean isInRange(int nr, int nc) {
 		return nr >= 0 && nc >= 0 && nr < N && nc < M;
 	}
