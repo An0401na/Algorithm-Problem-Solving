@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -36,11 +37,15 @@ public class Main {
 			tree[v].add(u);
 		}
 //		for (int i = 0; i < tree.length; i++) {
-//			System.out.println(i);
-//			
+//			System.out.print(i+" => ");
+//			for (int j = 0; j <tree[i].size(); j++) {
+//				System.out.print(tree[i].get(j)+",");
+//			}
+//		
+//			System.out.println();
 //		}
 		
-		dfs(R, -1);
+		dfs(R,-1);
 		StringBuilder sb = new StringBuilder();
 		for (int q = 0; q < Q; q++) {
 			int num = Integer.parseInt(br.readLine());
@@ -53,15 +58,39 @@ public class Main {
 		visited[root] = true;
 		dp[root] =1;
 		
+		
 		//파라미터 root를 서브트리의 root로 하는 정점으 개수를 구하는 재귀
 		for (int node : tree[root]) {
 			//양방향 그래프이기 때문에 방문한 노드는 다시 재방문하지 않도록 visited 처리
-//			if(visited[node]) continue;
-			if(node == parent) continue;
-			
-			dfs(node, root); 
-			dp[root]+=dp[node];
+			if(visited[node]) continue;
+			dfs(node, root);
 		}
+		 
+		if(parent != -1) {
+			dp[parent]+=dp[root];
+		}
+		
+//		System.out.println("====="+root+"=====");
+//		System.out.println(Arrays.toString(visited));
 	}
+	
+	
+//	static void dfs(int root, int parent) {
+//		visited[root] = true;
+//		dp[root] =1;
+//		
+//		
+//		//파라미터 root를 서브트리의 root로 하는 정점으 개수를 구하는 재귀
+//		for (int node : tree[root]) {
+//			//양방향 그래프이기 때문에 방문한 노드는 다시 재방문하지 않도록 visited 처리
+////			if(visited[node]) continue;
+//			if(node == parent) continue;
+//			
+//			dfs(node, root); 
+//			dp[root]+=dp[node];
+//		}
+//		System.out.println("====="+root+"=====");
+//		System.out.println(Arrays.toString(visited));
+//	}
 
 }
