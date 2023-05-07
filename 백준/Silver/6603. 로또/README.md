@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 19584 KB, 시간: 440 ms
+메모리: 11700 KB, 시간: 80 ms
 
 ### 분류
 
-백트래킹(backtracking), 조합론(combinatorics), 수학(math), 재귀(recursion)
+백트래킹, 조합론, 수학, 재귀
 
 ### 문제 설명
 

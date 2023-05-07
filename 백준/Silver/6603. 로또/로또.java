@@ -1,63 +1,52 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
+import java.time.Period;
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-	
-	static int k=-1;
-	static int [] num;
-	static ArrayList<int[]> tc_list = new ArrayList<>();
-	
-	static boolean [] visited;
-	static ArrayList<Integer> result= new ArrayList<>();
+	static int k;
+	static int S[];
+	static int num[];
+	static boolean visited[];
+	static StringBuilder sb;
 	public static void main(String[] args) throws IOException {
-		Scanner sc = new Scanner(System.in);
-			
-		while(k !=0) {
-			k = sc.nextInt();
-			if(k==0) {
-				break;
-			}
-			num = new int[k];
-			for (int i = 0; i < k; i++) {
-				num[i]= sc.nextInt();
-			}
-			tc_list.add(num);
-		}
-		
-		
-		for (int i = 0; i < tc_list.size(); i++) {
-			num = (int[]) tc_list.get(i);
-			k = num.length;
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+		sb = new StringBuilder();
+		while(true) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
+			k = Integer.parseInt(st.nextToken());
+			if(k == 0) break;
+			S = new int[k];
+			num = new int[6];
 			visited = new boolean[k];
-			dfs(0,-1);
-			result.clear();
-			System.out.println();
-		}
-		
-		
-	}
-	
-	static void dfs(int depth, int idx) {
-		if(depth==6) {
-			for (int i = 0; i <6 ; i++) {
-				System.out.print(result.get(i)+" ");
+			for (int i = 0; i < k; i++) {
+				S[i] = Integer.parseInt(st.nextToken());
 			}
-			System.out.println();
+			combi(0,0);
+			sb.append("\n");
+		}
+		System.out.println(sb.toString());
+	}
+
+	static void combi(int cnt, int start) {
+		if(cnt == 6) {
+			for (int i = 0; i <6; i++) {
+				sb.append(num[i]).append(" ");
+			}
+			sb.append("\n");
 			return;
 		}
-		for (int i = idx+1; i < k; i++) {
-			if(!visited[i]) {
-				visited[i]=true;
-				result.add(num[i]);
-				dfs(depth+1, i);
-				result.remove(result.size()-1);
-				visited [i]= false;
-			}
+		
+		for (int i = start; i < k; i++) {
+			if(visited[i]) continue;
+			visited[i] = true;
+			num[cnt] = S[i];
+			combi(cnt+1, i);
+			visited[i] =false;
 		}
 	}
+
 }
