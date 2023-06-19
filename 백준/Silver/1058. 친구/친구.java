@@ -18,42 +18,42 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			friend[i] = br.readLine().toCharArray();
 		}
+		
+		//--------입력
 
+		//완탐
+		//각 사람마다 2-친구 수가 몇명인지 알아내서 가장 큰 수 출력
 		for (int i = 0; i < N; i++) {
-//			System.out.println("======< "+ i+" >=====");
+			
 			visited = new boolean[N];
 			visited[i] = true;
 
 			Queue<Integer> q = new LinkedList<>();
 			q.add(i);
+			
 			int depth = 0;
 			int count = 0;
 
-			while (depth < 2) {
-//				System.out.println("[Depth] : "+depth);
+			while (depth < 2) { //한 친구 건너서 알게되는 사람까지만 count하기 때문에
+				
 				int size = q.size();
-
 				for (int j = 0; j < size; j++) {
+					
 					int n = q.poll();
-//					System.out.println("[n] : "+n);
 					
 					for (int k = 0; k < N; k++) {
+						
 						if (friend[n][k] == 'Y' && !visited[k]) {
-//							System.out.print(k+", ");
 							q.add(k);
 							count++;
 							visited[k] = true;
 						}
 					}
-//						System.out.println();
 				}
 				depth++;
 			}
-//			System.out.println("[Count] : "+count);
 			if(maxCount < count) {
 				maxCount = count;
-
-//				System.out.println("[MaxCount] : "+maxCount);
 			}
 		}
 
