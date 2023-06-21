@@ -26,7 +26,10 @@ public class Main {
 				peopleDP[i][j]= value + peopleDP[i-1][j]+peopleDP[i][j-1] - peopleDP[i-1][j-1];
 			}
 		}
-
+		
+		//-----입력을 받으면서 누적합으로 바꿈
+		
+		
 		K = Integer.parseInt(br.readLine());
 		
 		StringBuilder sb = new StringBuilder();
@@ -38,7 +41,9 @@ public class Main {
 			int y1 = Integer.parseInt(st.nextToken());
 			int x2 = Integer.parseInt(st.nextToken());
 			int y2 = Integer.parseInt(st.nextToken());
-			
+			for (String string : args) {
+				
+			}
 	
 			sb.append(peopleDP[x2][y2] - peopleDP[x1-1][y2] - peopleDP[x2][y1-1]+peopleDP[x1-1][y1-1]).append("\n");
 		}
