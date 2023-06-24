@@ -1,12 +1,9 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-
 public class Main {
 	static int N;
 	static int num[];
-	static int count;
 	static int dp[][];
 	// dfs로 풀게 되면 2^300 시간복잡도를 가지게 되어 터진다.
 	// 한번 dfs를 호출 할 때 마다 2번 호출 하므로 O(2^N) 
@@ -25,38 +22,16 @@ public class Main {
 		dp[0][N] = num[N];
 		
 		for (int i = N; i >=2; i--) {
-//			System.out.println("===========["+i+"]============");
-			if(dp[0][i] > 0) {
-				
+			//dp[i][j]==0인 곳은 도달하지 못하는 지점
+			if(dp[0][i] > 0) { //i == 0 이면 한칸, 두칸 전진 가능
 				dp[0][i-2] = Math.max(dp[0][i-2], num[i-2]+dp[0][i]);
 				dp[1][i-1] = Math.max(dp[1][i-1] , num[i-1]+dp[0][i]);
-//				System.out.println(".....한칸 앞으로 두칸 앞으로");
-//				for (int r = 0; r < dp.length; r++) {
-//					System.out.println(Arrays.toString(dp[r]));
-//					
-//				}
 			}
-			if(dp[1][i]>0) {
+			if(dp[1][i]>0) { //i==1이면 두칸 전진만 가능
 				dp[0][i-2] = Math.max(dp[0][i-2], num[i-2]+dp[1][i]);
 
-//				System.out.println(".....한칸 앞으로 ");
-//				for (int r = 0; r < dp.length; r++) {
-//					System.out.println(Arrays.toString(dp[r]));
-//					
-//				}
 			}
-//			System.out.println("---------결과");
-//			for (int r = 0; r < dp.length; r++) {
-//				System.out.println(Arrays.toString(dp[r]));
-//				
-//			}
-//			System.out.println();
 		}
-		
-//		for (int i = 0; i < dp.length; i++) {
-//			System.out.println(Arrays.toString(dp[i]));
-//			
-//		}
 		
 		int max = 0;
 		for (int i = 0; i <=1; i++) {
