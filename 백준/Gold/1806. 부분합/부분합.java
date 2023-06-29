@@ -1,7 +1,6 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -35,19 +34,15 @@ public class Main {
 			
 			s = 0;
 			int idx = i;
+			
 			while (s < S && idx < N) {
-				
-//				System.out.print(num[idx]+" ");
 				s+=num[idx++];
 			}
-//			System.out.println();
+			
 			if(s >= S) {
 				minLen = Math.min(minLen, idx-i);
 			}
-//			System.out.println("합 :"+s);
-//			System.out.println("길이 : "+ (idx-i));
-//			System.out.println("최소 : "+ minLen);
-//			System.out.println();
+			
 			if(sum[N-1]-sum[i] < S) break;
 		}
 		System.out.println(minLen);
