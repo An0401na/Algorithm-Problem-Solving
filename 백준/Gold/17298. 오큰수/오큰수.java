@@ -21,14 +21,13 @@ public class Main {
 		}
 		num[N+1] = Integer.MAX_VALUE;
 		
-		int idx[] = new int[N+1];
+		int result[] = new int[N+1];
 		Stack<Integer> st = new Stack<>();
 		st.push(N+1);
 		for (int i = N; i >= 1; i--) {
-			
 			if(num[i] < num[i+1]) {
 				st.push(i);
-				idx[i] = i+1;
+				result[i] = num[i+1];
 			}else {
 				int k = 0;
 				while (!st.isEmpty()) {
@@ -43,7 +42,7 @@ public class Main {
 						break;
 					}
 				}
-				idx[i] = k;
+				result[i] = num[k];
 			}
 //			
 //			System.out.println(st.toString());
@@ -55,7 +54,11 @@ public class Main {
 
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i < N+1; i++) {
-			sb.append(num[idx[i]]).append(" ");
+			if(result[i] == Integer.MAX_VALUE) {
+				sb.append("-1 ");
+			}else {
+				sb.append(result[i]).append(" ");
+			}
 		}
 		System.out.println(sb.toString());
 	}
