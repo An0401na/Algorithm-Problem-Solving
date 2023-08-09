@@ -59,14 +59,10 @@ public class Main {
 			Person p = q.poll();
 			if(p.isSubin) {// 수빈이가 다음 이동할 위치를 지정할 차례이면
 
-//				System.out.println("Time : "+ time+" => "+p.toString());
-				
 				// 현재 위치의 -1, +1 *2 이동할 위치를 계산해서
 				int nextList[] = {p.x -1, p.x+1, p.x*2};
 				
 				for (int next : nextList) {
-//					System.out.println("next : "+ next+", 동생 위치 : "+dongsaengIdx);
-					
 					//다음 위치가 범위밖을 벗어나면 넘김
 					if(next < 0 || 500000 < next) continue;
 					
@@ -86,38 +82,13 @@ public class Main {
 					// 있다면 탐색 끝
 					if(next == dongsaengIdx) {
 						meet = true;
-//						System.out.println("만남 ! "+next);
 						break Loop1;
 					}
-					
-					// 방문하지 않았으면 방문체크 후  큐에 넣기
-//					if(!visited[next]) {
-//						visited[next] = true;
-//						q.add(new Person(SUBIN, next));
-//					}
-
-//					if(time % 2 == 0) { //현재 시간이 짝수이면
-//						
-//						
-//						
-//					}
-//					if(visited[next] == -1) { //한번도 방문하지 않았다면
-//						visited[next] = time;
-//						q.add(new Person(SUBIN, next));
-//					}else { //이전 타임에 방문한 적이 있다면 
-//						if(visited[next] != time) {
-//							
-//						}
-//					}
-					
-					
 					
 					
 				}
 				
 			}else { // 동생이 다음 이동할 위치를 지정할 차례이면
-				
-//				System.out.println("Time : "+ time+" => "+p.toString()+", dongsaengIdx : "+ dongsaengIdx);
 				
 				// 다음 차례의 수빈이가 도달해야할  동생 위치(dongsaengIdx)을 다음 위치로 변경
 				dongsaengIdx = p.x + time +1;
@@ -132,7 +103,6 @@ public class Main {
 					if(evenVisited[dongsaengIdx] != -1) {
 						// 수빈이가 그 위치에 짝수시간에 방문한 적이 있는지 확인 있다면
 						meet = true;
-//						System.out.println("만남 ! "+dongsaengIdx);
 						break;
 					}
 				}else {
@@ -140,19 +110,12 @@ public class Main {
 					if(oddVisited[dongsaengIdx] != -1) {
 						// 수빈이가 그 위치에 홀수시간에 방문한 적이 있는지 확인 있다면
 						meet = true;
-//						System.out.println("만남 ! "+dongsaengIdx);
 						break;
 					}
 				}
-				
-				
-//				System.out.println("동생 위치 변경 : "+dongsaengIdx);
-
+			
 				
 				q.add(new Person(DONGSAENG,dongsaengIdx));
-				
-//				// 방문배열 초기화 
-//				visited = new int [500001];
 			}
 		}
 		
