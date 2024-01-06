@@ -10,10 +10,10 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
 
-        for (int i = 2; i*i <= N; i++) {
+        for (int i = 2; i*i<= N; i++) {
             white++;
-            
         }
+
         System.out.println(white);
     }
 }
