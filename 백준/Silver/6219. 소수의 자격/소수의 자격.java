@@ -27,22 +27,11 @@ public class Main {
         isPrime[0] = false;
         isPrime[1] = false;
 
-//        for (int i = 2; i <= B; i++) {
-//            if(!isPrime[i]) continue;
-//            if(A <= i && hasD(i)) {
-//                System.out.println("소수 : "+i);
-//                cnt++;
-//            }
-//            int idx = i*i;
-//            while (0 < idx && idx  <= B){
-//                isPrime[idx] = false;
-//                idx += i;
-//            }
-//        }
+        
 
-        for (int i = 2; i * i<= 4000000; i++) {
+        for (int i = 2; i * i<= B; i++) {
             if(!isPrime[i]) continue;
-            for (int j = i*i; j <= 4000000 ; j += i) {
+            for (int j = i*i; j <= B ; j += i) {
                 isPrime[j] = false;
             }
         }
