@@ -11,12 +11,13 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
+        StringBuilder sb = new StringBuilder();
 
         a = Long.parseLong(st.nextToken());
         d = Long.parseLong(st.nextToken());
         q = Long.parseLong(br.readLine());
 
-        for (int p = 0; p < q; p++) {
+        for (long p = 0; p < q; p++) {
             st = new StringTokenizer(br.readLine());
 
             long check = Long.parseLong(st.nextToken());
@@ -24,16 +25,17 @@ public class Main {
             long r = Long.parseLong(st.nextToken());
 
             if(check == 1){
-                System.out.println(sequenceSum(r) - sequenceSum(l-1));
+                sb.append(sequenceSum(r) - sequenceSum(l-1)+"\n");
             }else{
                 if(l == r){
-                    System.out.println(a + (l-1)*d);
+                    sb.append((a + (l-1)*d)+"\n");
                 }else{
-                    System.out.println(gcd(Math.max(a, d), Math.min(a, d)));
+                    sb.append(gcd(Math.max(a, d), Math.min(a, d))+"\n");
                 }
             }
 
         }
+        System.out.println(sb.toString());
     }
 
     private static long gcd(long a, long b) {
