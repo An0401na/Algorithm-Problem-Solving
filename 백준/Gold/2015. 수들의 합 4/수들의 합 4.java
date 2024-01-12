@@ -35,12 +35,6 @@ public class Main {
             // K를 만드는 수를 key로 가지는 map이 있다면 value를 반환
             // 없다면 0을 반환
             cnt += prefixSumCntMap.getOrDefault(prefixSum[i]-K,0);
-
-//            if(prefixSumCntMap.containsKey(prefixSum[i])){
-//                prefixSumCntMap.put(prefixSum[i], prefixSumCntMap.get(prefixSum[i])+1);
-//            }else{
-//                prefixSumCntMap.put(prefixSum[i], 1);
-//            }
             prefixSumCntMap.put(prefixSum[i], prefixSumCntMap.getOrDefault(prefixSum[i],0)+1);
         }
 
