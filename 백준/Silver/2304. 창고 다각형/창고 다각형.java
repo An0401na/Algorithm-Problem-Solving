@@ -1,96 +1,46 @@
 import java.io.BufferedReader;
-        import java.io.IOException;
-        import java.io.InputStreamReader;
-        import java.util.Arrays;
-        import java.util.StringTokenizer;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Main {
     static int N;
-    static Column[] columns;
-    static class Column implements Comparable<Column>{
-        int x;
-        int h;
-        public Column(int x, int h){
-            this.x = x;
-            this.h = h;
-        }
-
-        @Override
-        public String toString() {
-            return "Column{" +
-                    "x=" + x +
-                    ", h=" + h +
-                    '}';
-        }
-
-        @Override
-        public int compareTo(Column o) {
-            return this.x - o.x;
-        }
-    }
-    static int area;
+    static int columns[];
+    static int prefixSum[]; //l 좌표가 i 이하인 위치에서 가장 높은 기둥의 높이
+    static int suffixSum[];//l 좌표가 i 이상인 위치에서 가장 높은 기둥의 높이
+    static int result;
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         N = Integer.parseInt(br.readLine());
 
-        columns = new Column[N];
+        columns = new int[1001];
 
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            columns[i] = new Column(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
+            int l = Integer.parseInt(st.nextToken());
+            int h = Integer.parseInt(st.nextToken());
+            columns[l] = h;
         }
 
-        Arrays.sort(columns);
 
-        int maxColumnIdx = getTallestColumn(0, columns.length-1);
-
-        int tallestColumnIdx = maxColumnIdx;
-        area = columns[tallestColumnIdx].h;
-
-
-
-
-        while (true){
-            int tallestLeftIdx = getTallestColumn(0,tallestColumnIdx-1);
-
-            area += (columns[tallestColumnIdx].x - columns[tallestLeftIdx].x) * columns[tallestLeftIdx].h;
-
-
-            if(tallestLeftIdx == 0){
-                break;
-            }else{
-                tallestColumnIdx = tallestLeftIdx;
-            }
+        prefixSum = new int[1001];
+        prefixSum[0] = columns[0];
+        for (int i = 1; i < 1001; i++) {
+            prefixSum[i] = Math.max(prefixSum[i-1], columns[i]);
         }
 
-        tallestColumnIdx = maxColumnIdx;
-        while (true){
-            int tallestRightIdx = getTallestColumn(tallestColumnIdx+1,columns.length-1);
-
-            area += (columns[tallestRightIdx].x-columns[tallestColumnIdx].x ) * columns[tallestRightIdx].h;
-
-
-            if(tallestRightIdx == columns.length-1){
-                break;
-            }else{
-                tallestColumnIdx = tallestRightIdx;
-            }
+        suffixSum = new int[1001];
+        suffixSum[1000] = columns[1000];
+        for (int i = 999; i > 0; i--) {
+            suffixSum[i] = Math.max(suffixSum[i+1], columns[i]);
         }
-        System.out.println(area);
-    }
 
-    private static int getTallestColumn(int startIdx, int endIdx) {
-        if(startIdx == -1 ) return 0;
-        if(startIdx == columns.length) return columns.length-1;
-        int tallestColumnIdx = startIdx;
-        Column tallestColumn = columns[startIdx];
-        for (int i = startIdx+1; i <= endIdx; i++) {
-            if(tallestColumn.h < columns[i].h){
-                tallestColumn = columns[i];
-                tallestColumnIdx = i;
-            }
+        for (int i = 1; i <= 1000; i++) {
+            result += Math.min(prefixSum[i], suffixSum[i]);
+
         }
-        return tallestColumnIdx;
+
+        System.out.println(result);
+
     }
 }
