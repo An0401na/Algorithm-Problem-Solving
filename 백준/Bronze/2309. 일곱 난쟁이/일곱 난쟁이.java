@@ -4,42 +4,33 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Main {
-
-    static int height[];
-
-    static int result[];
+    static int arr[];
+    static int total;
     public static void main(String[] args) throws IOException {
+        arr = new int[9];
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        height = new int[9];
-        result = new int[7];
         for (int i = 0; i < 9; i++) {
-            height[i] = Integer.parseInt(br.readLine());
+            arr[i] = Integer.parseInt(br.readLine());
+            total += arr[i];
         }
 
-        dfs(0, 0);
+        Arrays.sort(arr);
 
-    }
-
-    static void dfs(int idx, int start){
-        if(idx == 7){
-            int sum = 0;
-            for (int i = 0; i < 7; i++) {
-                sum += result[i];
-            }
-            if(sum == 100) {
-
-                Arrays.sort(result);
-                for (int i = 0; i < 7; i++) {
-                    System.out.println(result[i]);
+        Loop1: for (int i = 0; i < 9; i++) {
+            for (int j = i+1; j < 9 ; j++) {
+                if(total - arr[i] - arr[j] == 100){
+                    arr[i] = -1;
+                    arr[j] = -1;
+                    break Loop1;
                 }
-                System.exit(0);
             }
-            return;
         }
-        for (int i = start; i < height.length; i++) {
-            result[idx] = height[i];
-            dfs(idx+1, i+1);
+
+        for (int i = 0; i < 9; i++) {
+            if(arr[i] != -1){
+                System.out.println(arr[i]);
+            }
         }
+
     }
 }
