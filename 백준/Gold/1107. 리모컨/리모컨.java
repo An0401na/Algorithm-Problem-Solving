@@ -8,7 +8,6 @@ public class Main {
     static int M;
     static boolean isBroken[];
     static int min = Integer.MAX_VALUE;
-    static int channel;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,32 +27,19 @@ public class Main {
         System.out.println(min);
     }
 
-    private static void makeChannel(int depth, int click) {
-        if(click >= min) return;
+    private static void makeChannel(int depth, int channel) {
         if(depth == 6){
-            if(channel == 0){
-                if(isBroken[0]) return;
-                click +=1;
-            }
-            min = Math.min(min, click+Math.abs(N - channel));
-//            System.out.println("목적지 채널 : "+ N);
-//            System.out.println("  도착 채널 : "+channel);
-//            System.out.println("  차이 : "+(Math.abs(N - channel)));
-//            System.out.println("  클릭수 : "+ click);
-//            System.out.println("  =====> min : " + min);
             return;
         }
         for (int i = 0; i < 10; i++) {
-            if(i != 0 && isBroken[i]) continue;
-            if(i == 0 && isBroken[0]){
-                if(channel != 0) continue;
-            }
-            channel = channel*10 +i;
-            if( N > 100 && channel>N*2){
+            if(isBroken[i]) continue;
+            int newChannel = channel*10 +i;
+            if( N > 100 && newChannel>N*2){
                 break;
             }
-            makeChannel(depth+1, channel == 0 ? 0 : click+1);
-            channel = channel/10;
+
+            min = Math.min(min, (depth+1)+Math.abs(N - newChannel));
+            makeChannel(depth+1, newChannel);
         }
     }
 }
