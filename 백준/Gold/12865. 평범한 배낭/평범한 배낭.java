@@ -17,10 +17,10 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		K = Integer.parseInt(st.nextToken());
 		
-		productWeigth = new int[N+1]; 
+		productWeigth = new int[N+1];
 		productValue = new int[N+1];
 		
-		val = new int[N+1][K+1]; //0번 인덱스를 물건을 선택하기전 가방의 무게를 저장하기 위해서 NxN 배열을 만듦.
+		val = new int[N+1][K+1];
 		
 		for (int i = 1; i <= N; i++) {
 			st = new StringTokenizer(br.readLine());
@@ -31,8 +31,8 @@ public class Main {
 			productValue[i] = v;				
 		}
 		
-		for (int i = 1; i <= N; i++) { // i번째 물건의 무게
-			for (int k = 1; k <= K; k++) { // 가방의 무게
+		for (int i = 1; i <= N; i++) {
+			for (int k = 1; k <= K; k++) {
 				if(productWeigth[i] > k) {
 					//i번째 물품의 무게가 1~K(가방에 담을 수 있는 무게)를 넘는지 판별
 					//넘는다면 i번째 물품을 선택하지 않고 패스
