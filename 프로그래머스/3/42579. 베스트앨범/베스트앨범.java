@@ -9,43 +9,33 @@ class Solution {
                 first = num;
                 seconds = -1;
             }
-            public void compare(int num, int plays[]){
-                
-                if(plays[first] < plays[num]){ // 가장 많이 재생된 경우
-                    seconds = first;
+            public int compare(int n1, int n2, int[] plays){
+                if(plays[n1] == plays[n2]){ // 재생수가 같다면 번호가 작은게 우선
+                    return n2 - n1; // 양수면 n2가 숫자가 더 크니까 n1이 더 우선, 음수면 n1이 숫자가 더 크니까 n2가 더 우선
+                }
+                //재생수가 큰게 우선
+                return plays[n1] - plays[n2]; //양수면 n1재생수가 더 크니까 n1이 우선, 음수면 n2재생수가 더 크니까 n2가 우선
+            }
+            public void reorder(int num, int plays[]){
+                int temp;
+                if(compare(first, num, plays) <  0){
+                    // 음수면 num이 1위
+                    temp = first;
                     first = num;
-                    return;
+                }else{
+                    // 양수면 first가 그대로 1위
+                    temp = num;
                 }
-                if(plays[first] == plays[num]){ // 재생된 수가 같은 경우
-                    if(first > num){
-                        seconds = first;
-                        first = num;
-                    } else {
-                        if (plays[seconds] == plays[num]){
-                            if (seconds > num){
-                                seconds = num;
-                            }
-                        }else{
-                            seconds = num;
-                        }
-                    }
+
+                if(seconds == -1){ // 2위 자리 비어 있으면 넣고 마치기
+                    seconds = temp;
                     return;
                 }
 
-                if(seconds == -1){
-                    seconds = num;
-                    return;
-                }
-
-                if(plays[seconds] < plays[num]){
-                    seconds = num;
-                    return;
-                }
-
-                if(plays[seconds] == plays[num]){
-                    if(seconds > num){
-                        seconds = num;
-                    }
+                if(compare(seconds, temp, plays) <  0){
+                    // 음수면 temp 2위
+                    seconds = temp;
+                    // 양수면 seconds가 그대로 2위
                 }
             }
         }
@@ -59,7 +49,7 @@ class Solution {
                     bestAlbumPlay.put(genres[i], bestAlbumPlay.get(genres[i]) + plays[i]);
 
                     // 순서 다시 정하기
-                    bestAlbum.get(genres[i]).compare(i, plays);
+                    bestAlbum.get(genres[i]).reorder(i, plays);
 
                 }else{ // 새로운 장르
                     // 재생수 map에 추가
