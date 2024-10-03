@@ -1,10 +1,10 @@
 # [level 3] 퍼즐 조각 채우기 - 84021 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/84021) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/84021#qna) 
 
 ### 성능 요약
 
-메모리: 83.1 MB, 시간: 7.36 ms
+메모리: 78.8 MB, 시간: 27.52 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2024년 10월 03일 23:11:22
+2024년 10월 04일 03:05:45
 
 ### 문제 설명
 
