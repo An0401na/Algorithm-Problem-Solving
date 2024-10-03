@@ -1,5 +1,7 @@
 import java.util.*;
-class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
+class Solution {
+    
+        static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
         static class Point{
             int r;
             int c;
@@ -40,6 +42,7 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
                 }
             }
 
+
             // ㅗ , ㅏ, ㅜ, ㅓ  한바퀴 돌린 보드 네개 만들기
             tables = new int[4][N][N];
             tables[0] = table;
@@ -61,7 +64,6 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
             같다면 테이블에 찾은 퍼즐을 isused 체크하고
             넘기기
              */
-
             for (int i = 0; i < N; i++) {
                 for (int j = 0; j < N; j++) {
                     if(gameBoard[i][j] == 0){ // 게임보드가 비어있다면 탐색
@@ -78,7 +80,6 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
 
                 }
             }
-;
 
             int answer = 0;
             for (int i = 0; i < 1000; i++) {
@@ -96,7 +97,8 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
                 for (int j = 0; j < N; j++) {
                     if(table[i][j] > 1 && !isCheck[table[i][j]]){
                         isCheck[table[i][j]] = true; // 확인한 퍼즐은 보지 않기 위해서 체크
-                        if(isFit(emptyShape, i, j, table)){
+                        
+                        if(!isUsed[table[i][j]] && isFit(emptyShape, i, j, table)){
                             return table[i][j];
                         }
                     }
@@ -127,17 +129,18 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
             ArrayList<Point> emptyShape = new ArrayList<>();
             Queue<Point> q = new LinkedList<>();
 
-            emptyShape.add(new Point(0, 0));
+
             q.add(new Point(r, c));
             while (!q.isEmpty()){
                 Point p = q.poll();
+                if(gameBoard[p.r][p.c] == 1) continue;
                 gameBoard[p.r][p.c] = 1;
+                emptyShape.add(new Point(p.r-r, p.c-c));
                 for (int d = 0; d < 4; d++) {
                     int nr = p.r + dir[d][0];
                     int nc = p.c + dir[d][1];
                     if(isInRange(nr, nc) && gameBoard[nr][nc] == 0){
                         q.add(new Point(nr, nc));
-                        emptyShape.add(new Point(nr-r, nc-c));
                     }
                 }
             }
@@ -160,16 +163,16 @@ class Solution {static int[][] dir = {{1,0},{0,1},{-1,0},{0,-1}};
         private void coloring(int r, int c, int num) {
             Queue<Point> q = new LinkedList<>();
             int size = 0;
-
             q.add(new Point(r, c));
+            table[r][c] = num;
             while (!q.isEmpty()){
                 Point p = q.poll();
                 size +=1;
-                table[p.r][p.c] = num;
                 for (int d = 0; d < 4; d++) {
                     int nr = p.r + dir[d][0];
                     int nc = p.c + dir[d][1];
                     if(isInRange(nr, nc) && table[nr][nc] == 1){
+                        table[nr][nc] = num;
                         q.add(new Point(nr, nc));
                     }
                 }
