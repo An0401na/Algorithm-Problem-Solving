@@ -1,27 +1,33 @@
+import java.util.*;
 class Solution {
+
+    static int triangle[][];
+    static int dp[][];
     public int solution(int[][] triangle) {
-        int[][] dp = new int[triangle.length][triangle.length];
-        dp[0][0] = triangle[0][0];
-        
-        for (int i = 1; i < triangle.length; i++) {
-            // 맨 왼쪽
-            dp[i][0] = dp[i - 1][0] + triangle[i][0];
-            
-            // 중간
-            for (int j = 1; j <= i; j++) {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i - 1][j - 1]) + triangle[i][j];
-            }
-            
-            // 맨 오른쪽
-            dp[i][i] = dp[i - 1][i - 1] + triangle[i][i];
-        }
-        
-        int answer = 0;
-        
+        this.triangle = triangle;
+        dp = new int[triangle.length][triangle.length];
         for (int i = 0; i < triangle.length; i++) {
-            answer = Math.max(answer, dp[triangle.length - 1][i]);
+            Arrays.fill(dp[i], -1);
         }
-        
+
+        int answer = recur(0, 0);
         return answer;
     }
+
+    private int recur(int depth, int idx) {
+        if(depth == triangle.length-1){
+            return triangle[depth][idx];
+        }
+        if(dp[depth][idx] != -1){
+            return dp[depth][idx];
+        }
+//            return Math.max(recur(depth+1, idx)+triangle[depth][idx],
+//                            recur(depth+1, idx+1)+triangle[depth][idx]);
+
+        dp[depth][idx] = Math.max(recur(depth+1, idx)+triangle[depth][idx],
+                recur(depth+1, idx+1)+triangle[depth][idx]);
+
+        return dp[depth][idx];
+        }
+
 }
