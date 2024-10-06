@@ -19,7 +19,14 @@ class Solution {
 
             if(x == r && y == c ) return "";
 
-            if(!canArrival(x, y, k) ) return "impossible";
+            
+            int shortestLength = getShortestLength(x, y);
+            if(k < shortestLength){ // 남은 횟수로 절대 r,c에 도달할 수 없을 경우
+                return "impossible";
+            }
+            if(shortestLength % 2 != k % 2){
+                return "impossible";
+            }
 
             findPath(x, y, 0, "");
             if(!isSuccess){
@@ -31,9 +38,6 @@ class Solution {
         private boolean canArrival(int x, int y, int remainder) {
             int shortestLength = getShortestLength(x, y);
             if(remainder < shortestLength){ // 남은 횟수로 절대 r,c에 도달할 수 없을 경우
-                return false;
-            }
-            if(shortestLength % 2 != remainder % 2){
                 return false;
             }
             return true;
