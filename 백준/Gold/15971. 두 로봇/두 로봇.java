@@ -9,10 +9,7 @@ public class Main {
     static int robot1;
     static int robot2;
     static ArrayList<Node>[] graph ;
-    static int min = Integer.MAX_VALUE;
-    static boolean visited1[];
-    static boolean visited2[];
-    static  int sum = 0;
+    static int result;
     static class Node{
         int v;
         int len;
@@ -22,6 +19,7 @@ public class Main {
         }
 
     }
+    static boolean visited[];
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -40,6 +38,7 @@ public class Main {
         for (int i = 0; i <= N; i++) {
             graph[i] = new ArrayList<>();
         }
+
         for (int i = 0; i < N-1; i++) {
             st = new StringTokenizer(br.readLine());
             int n1 = Integer.parseInt(st.nextToken());
@@ -52,52 +51,23 @@ public class Main {
         }
 
 
-        visited2 = new boolean[N+1];
-        visited2[robot2] = true;
+        visited = new boolean[N+1];
+        visited[robot1] = true;
+        dfs(robot1, 0, 0);
 
-        visited1 = new boolean[N+1];
-        visited1[robot1] = true;
-        dfs2(robot1, robot2);
-        dfs1(robot1);
-
-        System.out.println(min);
+        System.out.println(result);
     }
 
-    private static void dfs1(int r1){
-        if(sum>= min) return;
-        for (Node node  : graph[r1]){
-            int n = node.v;
-            if(visited1[n]) continue;
-//            if(n == robot2) continue;
-            visited1[n] = true;
-            sum += node.len;
-            dfs2(n, robot2);
-            dfs1(n);
-            sum -= node.len;
-            visited1[n] = false;
-        }
-    }
-
-
-    private static void dfs2(int r1, int r2){
-        if(sum >= min) return;
-        for(Node node : graph[r1]){
-            int n = node.v;
-            if(n == r2){
-                min = Math.min(min, sum);
-                return;
-            }
+    private static void dfs(int r, int sum, int maxLen){
+        if(r == robot2){
+            result = sum - maxLen;
+            return;
         }
 
-        for (Node node : graph[r2]){
-            int n = node.v;
-            if(visited2[n]) continue;
-//            if(n == r1) continue;
-            visited2[n] = true;
-            sum += node.len;
-            dfs2(r1, n);
-            sum -= node.len;
-            visited2[n] = false;
+        for (Node n : graph[r]){
+            if(visited[n.v]) continue;
+            visited[n.v] = true;
+            dfs(n.v, sum+ n.len, Math.max(maxLen, n.len));
         }
     }
 }
