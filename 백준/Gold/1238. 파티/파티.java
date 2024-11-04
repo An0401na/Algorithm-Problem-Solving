@@ -68,9 +68,13 @@ public class Main {
 
         dist[X] = 0;
         reverseDist[X] = 0;
+
+        boolean visited[] = new boolean[N+1];
+        boolean reverseVisted[] = new boolean[N+1];
         while (!pq.isEmpty() || !reversePq.isEmpty()){
             if(!pq.isEmpty()){
                 Point now = pq.poll();
+                if(visited[now.v]) continue;
                 for (int i = 0; i < graph[now.v].size(); i++) {
                     Point next = graph[now.v].get(i);
                     if(dist[next.v] > dist[now.v] + next.cost){
@@ -82,6 +86,7 @@ public class Main {
 
             if(!reversePq.isEmpty()){
                 Point now = reversePq.poll();
+                if(reverseVisted[now.v]) continue;
                 for (int i = 0; i < reverseGraph[now.v].size(); i++) {
                     Point next = reverseGraph[now.v].get(i);
                     if(reverseDist[next.v] > reverseDist[now.v] + next.cost){
