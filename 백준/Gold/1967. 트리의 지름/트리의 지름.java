@@ -48,7 +48,7 @@ public class Main {
         visitd = new boolean[N+1];
         visitd[1] = true;
         dfs(1, 0);
-//        System.out.println(farLeaf.toString());
+
 
         int start = farLeaf.child;
         visitd = new boolean[N+1];
@@ -57,14 +57,6 @@ public class Main {
         dfs(start, 0);
 
         System.out.println(farLeaf.cost);
-
-//        dfs(1, 0, 0);
-//        visitd = new boolean[N+1];
-//        visitd[farLeaf.child] = true;
-//         getMaxCost(farLeaf.child, 0);
-
-//        System.out.println(farLeaf.toString());
-//        System.out.println(maxCost);
 
     }
 
@@ -80,27 +72,5 @@ public class Main {
             dfs(n.child, cost + n.cost);
         }
     }
-
-//    public static void dfs(int cur, int prev, int cost){
-//        if(farLeaf.cost < cost){
-//            farLeaf = new Edge(cur, cost);
-//        }
-//        if(cur > N) return;
-//
-//        for (Edge n : tree[cur]){
-//            if(n.child == prev) continue;
-//            dfs(n.child, cur, cost + n.cost);
-//        }
-//    }
-
-//    public static void getMaxCost(int cur, int cost){
-//        maxCost = Math.max(maxCost, cost);
-//
-//        for (Edge n : tree[cur]){
-//            if(visitd[n.child]) continue;
-//            visitd[n.child] = true;
-//            getMaxCost(n.child, cost+n.cost);
-//        }
-//    }
 
 }
