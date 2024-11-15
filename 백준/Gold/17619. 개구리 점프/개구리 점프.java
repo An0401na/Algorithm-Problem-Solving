@@ -1,107 +1,94 @@
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.PriorityQueue;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-public class Main {
-    static int N;
-    static int Q;
-    private static class Log implements Comparable<Log>{
-        int n;
-        int x1;
-        int x2;
-        int y;
+class Node implements Comparable<Node> {
+    int x1;
+    int x2;
+    int idx;
 
-        public Log(int n, int x1, int x2, int y){
-            this.n = n;
-            this.x1 = x1;
-            this.x2 = x2;
-            this.y = y;
-        }
-
-        public int compareTo(Log o){
-            if(this.x2 == o.x2) return o.x1 - this.x1;
-            return o.x2 - this.x2;
-        }
-
-        @Override
-        public String toString() {
-            return "Log{" +
-                    "n=" + n +
-                    ", x1=" + x1 +
-                    ", x2=" + x2 +
-                    ", y=" + y +
-                    '}';
-        }
+    Node(int idx, int x1, int x2) {
+        this.idx = idx;
+        this.x1 = x1;
+        this.x2 = x2;
     }
-    static PriorityQueue<Log> pq = new PriorityQueue<>();
-    static int parents[];
-    static int rank[];
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        N = Integer.parseInt(st.nextToken());
-        Q = Integer.parseInt(st.nextToken());
+    public int compareTo(Node that) {
+        if (this.x1 < that.x1) {
+            return -1;
+        } else if (this.x1 == that.x1) {
+            return 0;
+        }
+        return 1;
+    }
+}
 
-        parents = new int[N+1];
-        rank = new int[N+1];
-        for (int i = 1; i < N+1; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int c = Integer.parseInt(st.nextToken());
-            parents[i] = i;
-            pq.add(new Log(i, a, b, c));
+class Main {
+
+    static int find(int a, int[] parent) {
+        return a == parent[a] ? a : (parent[a] = find(parent[a], parent));
+    }
+
+    static void union(int a, int b, int[] parent, int[] size) {
+        int r1 = find(a, parent);
+        int r2 = find(b, parent);
+
+        if (size[r1] > size[r2]) {
+            int temp = r1;
+            r1 = r2;
+            r2 = temp;
         }
 
-        Log prev = pq.poll();
-        Log cur = null;
-        while (!pq.isEmpty()){
-            cur = pq.poll();
-            if(find(prev.n) == find(cur.n)) continue;
-            union(prev, cur);
-            prev = cur;
+        parent[r1] = r2;
+        size[r2] += size[r1];
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] temp = br.readLine().split(" ");
+
+        int n = Integer.parseInt(temp[0]);
+        int[] parent = new int[n + 1];
+        int[] size = new int[n + 1];
+        Node[] nodes = new Node[n + 1];
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+            size[i] = 1;
+        }
+        int q = Integer.parseInt(temp[1]);
+
+        nodes[0] = new Node(-1, -1, -1);
+        for (int i = 1; i <= n; i++) {
+            temp = br.readLine().split(" ");
+            nodes[i] = new Node(i, Integer.parseInt(temp[0]), Integer.parseInt(temp[1]));
+        }
+
+        Arrays.sort(nodes);
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = i + 1; j <= n; j++) {
+                if (nodes[i].x2 >= nodes[j].x1) {
+                    union(nodes[i].idx, nodes[j].idx, parent, size);
+                } else {
+                    break;
+                }
+            }
         }
 
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < Q; i++) {
-            st = new StringTokenizer(br.readLine());
-            int s = Integer.parseInt(st.nextToken());
-            int e = Integer.parseInt(st.nextToken());
+        while (q-- > 0) {
+            temp = br.readLine().split(" ");
+            int u = Integer.parseInt(temp[0]);
+            int v = Integer.parseInt(temp[1]);
 
-            if(parents[s] == parents[e]) sb.append(1).append("\n");
-            else sb.append(0).append("\n");
+            int r1 = find(u, parent);
+            int r2 = find(v, parent);
+
+            if (r1 == r2) {
+                sb.append(1 + "\n");
+            } else {
+                sb.append(0 + "\n");
+            }
         }
-
-        System.out.println(sb.toString());
-
-    }
-    private static void union(Log prev, Log cur){
-//        System.out.println("prev : " + prev);
-//        System.out.println("cur : " + cur);
-        if(cur.x2 < prev.x1)  return;
-
-
-
-        int a = find(prev.n);
-        int b = find(cur.n);
-
-        if(rank[a] < rank[b]){
-            parents[a] = b;
-        }else if(rank[a] > rank[b]){
-            parents[b] = a;
-        }else{
-            parents[a] = b;
-            rank[b] += 1;
-        }
-
-//        System.out.println("prev.n 부모 : "+ parents[prev.n]);
-//        System.out.println("cur.n 부모 : "+ parents[cur.n]);
-    }
-
-    private static int find(int x){
-        if(parents[x] == x) return x;
-        return parents[x] = find(parents[x]);
+        System.out.print(sb);
     }
 }
