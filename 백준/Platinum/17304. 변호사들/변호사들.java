@@ -1,106 +1,99 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Stack;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int N, M;
-    static ArrayList<Integer>[] list;
-    static boolean[] defensed;
-    static int[] parent;
-
-    static int find(int x) {
-        if (parent[x] == x) return x;
-
-        parent[x] = find(parent[x]);
-        return parent[x];
-    }
-
-    static void union(int a, int b) {
-        a = find(a);
-        b = find(b);
-
-        if (a == b) return;
-
-        parent[b] = a;
-    }
-
-    public static void main(String[] args) throws IOException {
+    static int N;
+    static int M;
+    static ArrayList<Integer>[] graph;
+    static int parent[];
+    static boolean isDefended[];
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
-
-        st = new StringTokenizer(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
         N = Integer.parseInt(st.nextToken());
         M = Integer.parseInt(st.nextToken());
 
-        // 내가 변호할 사람들을 담는당
-        list = new ArrayList[N + 1];
-        for (int i = 0; i < N + 1; i++) {
-            list[i] = new ArrayList<>();
+        parent = new int[N+1];
+        isDefended = new boolean[N+1];
+
+        graph = new ArrayList[N+1];
+        for (int i = 1; i < N+1; i++) {
+            graph[i] = new ArrayList<>();
         }
 
-        int a, b;
+
         for (int i = 0; i < M; i++) {
             st = new StringTokenizer(br.readLine());
-            a = Integer.parseInt(st.nextToken());
-            b = Integer.parseInt(st.nextToken());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-            list[a].add(b);
+            graph[a].add(b);
         }
-
-        // 단방향 간선 지우면서 변호 받은거 체크하기
-        defensed = new boolean[N + 1];
-
-        int v;
-        for (int i = 1; i <= N; i++) {
-            for (int j = 0, size = list[i].size(); j < size;) {
-                v = list[i].get(j);
-                if (!list[v].contains(i)) {
-                    // 단방향
-                    defensed[v] = true;
-
-                    // 단방향 간선 제거
-                    list[i].remove(Integer.valueOf(v));
-                    size--;
-                } else {
-                    j++;
+        
+        for (int a = 1; a <= N; a++) {
+            int idx = 0;
+            while (idx < graph[a].size()){
+                int b = graph[a].get(idx);
+                if(graph[b].contains(a)) {
+                    idx++;
+                    continue; //a -> b , b -> a 인 경우
                 }
+                isDefended[b] = true; // a -> b 이므로 b는 변호 받음 표시
+                graph[a].remove(Integer.valueOf(b)); // 변호 받은 신뢰 관계는 더이상 확인할 필요가 없음으로 제거
             }
         }
 
-        parent = new int[N + 1];
-        for (int i = 0; i < N + 1; i++) {
+        for (int i = 1; i <= N; i++) {
             parent[i] = i;
         }
 
-        int to;
-        for (int from = 1; from <= N; from++) {
-            for (int j = 0; j < list[from].size(); j++) {
-                to = list[from].get(j);
-                list[to].remove(Integer.valueOf(from));
 
-                if (find(to) == find(from)) {
-                    // 사이클 형성
-                    defensed[find(to)] = true;
-                } else {
-                    if (defensed[find(to)]) union(to, from);
-                    else union(from, to);
+        // 이제 양방향 신뢰 밖에 안남음 
+        for (int a = 1; a <= N; a++) {
+            int idx = 0;
+            while (idx < graph[a].size()){// a -> b 가 있으면 b -> a 도 존재
+                int b = graph[a].get(idx++);
+                graph[b].remove(Integer.valueOf(a)); // b -> a 제거
+
+                if(find(a) == find(b)){ //사이클
+                    isDefended[find(a)] = true;
+                }else{
+                    if(isDefended[find(b)]) union(b, a); // b가 이미 변호를 받았다면 b -> a
+                    else union(a, b);
                 }
+
             }
         }
 
 
-        // 가능한지 판별
-        String answer = "YES";
-        for (int i = 1; i <= N ; i++) {
-            if (defensed[i]) continue;
-            if (defensed[find(i)]) continue;
-            answer = "NO";
+        for (int i = 1; i <= N; i++) {
+//            if(isDefended[i]) continue;
+//            if(isDefended[find(i)])continue;
+//            System.out.println("NO");
+//            return;
+            if(!isDefended[find(i)]) {
+                System.out.println("NO");
+                return;
+            }
         }
+        System.out.println("YES");
 
-        bw.write(answer);
-        bw.flush();
-        bw.close();
-        br.close();
+
+    }
+    public static int find(int x){
+        if(parent[x] == x) return x;
+        return parent[x] = find(parent[x]);
+    }
+    public static void union(int a, int b){
+        a = find(a);
+        b = find(b);
+        if(a == b) return;
+        parent[b] = a; // b의 부모를 a로 연결 : a가 b를 변호
     }
 }
