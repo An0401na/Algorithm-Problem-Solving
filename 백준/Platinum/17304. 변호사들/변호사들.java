@@ -64,7 +64,7 @@ public class Main {
                 if(find(a) == find(b)){ //사이클
                     isDefended[find(a)] = true;
                 }else{
-                    if(isDefended[find(b)]) union(b, a); // b가 이미 변호를 받았다면 b -> a
+                    if(isDefended[b]) union(b, a); // b가 이미 변호를 받았다면 b -> a
                     else union(a, b);
                 }
 
@@ -73,10 +73,6 @@ public class Main {
 
 
         for (int i = 1; i <= N; i++) {
-//            if(isDefended[i]) continue;
-//            if(isDefended[find(i)])continue;
-//            System.out.println("NO");
-//            return;
             if(!isDefended[find(i)]) {
                 System.out.println("NO");
                 return;
